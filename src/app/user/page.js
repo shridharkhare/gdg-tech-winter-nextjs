@@ -1,26 +1,53 @@
-'use client';
+"use client";
+import Navbar from "@/components/navbar";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-import Link from "next/link";
+export default function Page() {
+  const [name, setName] = useState(""); // State to hold input value
+  const router = useRouter(); // Next.js router for navigation
 
-export default function User(){
+  const handleRedirect = () => {
+    if (name) {
+      router.push(`/user/${name}`); // Redirect to the dynamic route
+    } else {
+      alert("Please enter a name!");
+    }
+  };
 
-    return (
-        <div>
-            <h1>This is the User Page</h1>
-            <br />
-            <form action="./page/{name}">
-                <label>
-                    Enter GitHub Username: 
-                </label>
-                <input type="text" name="name" />
-            </form>
-            <br />
-            <br />
-            <nav>
-                <Link href="/">Home</Link> || 
-                <Link href="../user">User Info</Link> || 
-                <Link href="../contact">Contact</Link>
-            </nav>
-        </div>
-    )
+  return (
+    <div style={{ textAlign: "center", marginTop: "100px" }}>
+      <h1>Enter GitHub Username</h1>
+        <br />
+      <input
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Ex. google"
+        style={{
+          padding: "10px",
+          fontSize: "16px",
+          marginRight: "10px",
+          width: "250px",
+          borderRadius: "5px",
+        }}
+      />
+      <button
+        onClick={handleRedirect}
+        style={{
+          padding: "10px 20px",
+          fontSize: "16px",
+          backgroundColor: "#333",
+          color: "#fff",
+          border: "none",
+          borderRadius: "5px",
+          cursor: "pointer",
+        }}
+      >
+        Go to User Page
+      </button>
+        <br />
+        <Navbar />
+    </div>
+  );
 }

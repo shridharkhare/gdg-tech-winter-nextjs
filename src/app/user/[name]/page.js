@@ -1,6 +1,7 @@
 'use client'
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react"; 
+import { useEffect, useState } from "react";
+import styles from "./page.module.css";
 
 export default function Page() {
     const params = useParams();
@@ -19,6 +20,7 @@ export default function Page() {
             throw new Error('Failed to fetch data');
           }
           const userData = await response.json();
+          console.log("userData", userData);
           setData(userData);
         } catch (err) {
           setError(err.message);
@@ -34,14 +36,20 @@ export default function Page() {
     if (error) return <p>Error: {error}</p>;
   
     return (
-      <div style={{ textAlign: 'center' , border: '1px solid red', width: '400px',
-        margin: 'auto', padding: '20px', borderRadius: '10px'
-      }}>
+      <div className={styles.cardContainer}>
+        <div className={styles.card}>
         <img src={data.avatar_url} alt={`${data.name}'s avatar`} width="150" height="150" />
+
         <h2>{data.name}</h2>
-        <p>{data.bio || 'No bio available'}</p>
-        <p><strong>Followers:</strong> {data.followers}</p>
-        <p><strong>Repos:</strong> {data.public_repos}</p>
+
+        <p className={styles.bio}>{data.bio || 'No bio available'}</p>
+        <div className={styles.info}>
+          <p><strong>Following:</strong> {data.following}</p>
+          <p><strong>Followers:</strong> {data.followers}</p>
+          <p><strong>Repos:</strong> {data.public_repos}</p>
+        </div>
+
+        </div>
       </div>
     );
     }
